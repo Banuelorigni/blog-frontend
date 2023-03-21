@@ -1,12 +1,7 @@
-<script setup>
-import AuthorInfo from "@/components/Author-info.vue";
-import Menu from "@/components/header/Menu.vue";</script>
-
 <template>
-  <p>当前时间：{{ currentTime }}</p>
   <n-config-provider :theme="theme">
     <header>
-      <h1>Blog Name</h1>
+      <n-h1>Blog Name</n-h1>
       <Menu/>
     </header>
 
@@ -23,10 +18,7 @@ import Menu from "@/components/header/Menu.vue";</script>
           </n-message-provider>
         </n-loading-bar-provider>
       </div>
-      <h1>qq</h1>
-      <!--    <div class="wrapper">-->
-      <!--      <HelloWorld msg="You did it!"/>-->
-      <!--    </div>-->
+
     </main>
   </n-config-provider>
 </template>
@@ -60,44 +52,43 @@ main {
 </style>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
+import AuthorInfo from "@/components/Author-info.vue";
+import Menu from "@/components/header/Menu.vue";
 import { darkTheme, lightTheme } from "naive-ui";
 
 export default defineComponent({
+  components: { AuthorInfo, Menu },
+
   setup() {
     const theme = ref(lightTheme);
+    const currentTime = ref(new Date().toLocaleString());
+    let timer = null;
 
-    const now = new Date();
-    if (now.getHours() >= 20 || now.getHours() < 6) {
-      theme.value = darkTheme;
-    }
-
-    return {
-      theme,
-    };
-  },
-
-  data() {
-    return {
-      currentTime: new Date().toLocaleString(),
-    };
-  },
-
-  mounted() {
-    this.timer = setInterval(() => {
-      this.currentTime = new Date().toLocaleString();
-
-      // 在每次时间更新时检查当前时间是否需要更换主题
+    const changeTheme = () => {
       const now = new Date();
       if (now.getHours() >= 20 || now.getHours() < 6) {
-        this.theme = darkTheme;
-      } else {
-        this.theme = lightTheme;
+        theme.value = darkTheme;
       }
-    }, 1000);
+    };
+    changeTheme();
+
+    watch(theme, (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        console.log("theme changed");
+      }
+    });
+
+    const updateCurrentTime = () => {
+      currentTime.value = new Date().toLocaleString();
+    };
+    updateCurrentTime();
+    timer = setInterval(updateCurrentTime, 1000);
+
+    return { theme, currentTime, timer };
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.timer);
   },
 });

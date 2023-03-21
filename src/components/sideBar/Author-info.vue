@@ -7,8 +7,8 @@
           src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
       />
     </n-space>
-      <h1>Author Name</h1>
-      <h3>slogan</h3>
+      <n-h1>Author Name</n-h1>
+      <n-h3>slogan/slogan/slogan/slogan/slogan</n-h3>
     <n-space class="link">
       <a href="https://www.runoob.com/">文章</a>
       <a href="https://www.runoob.com/">文章</a>
@@ -61,29 +61,22 @@ export default defineComponent({
 <style>
 .card {
   border-radius: 2%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-right: auto;
-
+  margin-bottom: 2%;
 }
 
 .button{
-  width: 80%;
-  align-self: center;
+  width: 100%;
 }
 .link{
-  display: flex;
   justify-content: space-between;
   align-items: center;
+
+  width: 100%;
 }
 
 .icon-link{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
 }
 
 </style>

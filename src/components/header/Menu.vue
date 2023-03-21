@@ -45,7 +45,7 @@ const menuOptions = [
     ]
   },
   {
-    label: "寻羊冒险记",
+    label: "时间轴",
     key: "a-wild-sheep-chase",
     icon: renderIcon(BookIcon),
     disabled: true
@@ -98,6 +98,11 @@ const menuOptions = [
         key: "the-past-increases-the-future-recedes"
       }
     ]
+  },
+  {
+    label: "登陆",
+    key: "login",
+    icon: renderIcon(BookIcon),
   }
 ];
 

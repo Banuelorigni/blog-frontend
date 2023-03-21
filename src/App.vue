@@ -5,7 +5,7 @@
       <Menu/>
     </header>
 
-
+<body>
     <main>
       <div class="side">
         <n-loading-bar-provider>
@@ -13,6 +13,8 @@
             <n-notification-provider>
               <n-dialog-provider>
                 <AuthorInfo/>
+                <Notice/>
+                <RecentUpdate/>
               </n-dialog-provider>
             </n-notification-provider>
           </n-message-provider>
@@ -20,6 +22,7 @@
       </div>
 
     </main>
+</body>
   </n-config-provider>
 </template>
 
@@ -31,34 +34,34 @@ header {
   right: 0;
   z-index: 999;
   display: flex;
-  justify-content: space-between;
   margin-right: 5px;
   margin-left: 5px;
-}
-
-main {
-  display: block;
-  justify-content: space-between;
 
 }
+main{
+  padding-left: 10%;
+  padding-right: 10%;
+  top: 60px;
+
+}
+
 .side{
-  width: 25%;
-  position: fixed;
-  top: 80px;  /* 或者适当的值，以保证 header 不会遮挡 side */
-  bottom: 0;
-  left: 0;
-  margin: auto;
+  display: block;
+  position: relative;
 }
+
 </style>
 
 <script>
 import { defineComponent, ref, watch } from "vue";
-import AuthorInfo from "@/components/Author-info.vue";
+import AuthorInfo from "@/components/sideBar/Author-info.vue";
 import Menu from "@/components/header/Menu.vue";
 import { darkTheme, lightTheme } from "naive-ui";
+import Notice from "@/components/sideBar/Notice.vue";
+import RecentUpdate from "@/components/sideBar/RecentUpdate.vue";
 
 export default defineComponent({
-  components: { AuthorInfo, Menu },
+  components: {RecentUpdate, Notice, AuthorInfo, Menu },
 
   setup() {
     const theme = ref(lightTheme);

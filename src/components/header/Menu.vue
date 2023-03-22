@@ -1,35 +1,32 @@
 <template>
-    <n-menu v-model:value="activeKey" mode="horizontal" :options="menuOptions" />
+  <n-menu v-model:value="activeKey" mode="horizontal" :options="menuOptions"/>
 </template>
 
 <script>
-import { defineComponent, h, ref } from "vue";
-import { NIcon } from "naive-ui";
-import {
-  BookOutline as BookIcon,
-    HomeOutline as Home,
-    Pricetag as Tags,
-    HeartOutline as Heart,
-  PersonOutline as PersonIcon,
-  WineOutline as WineIcon
-} from "@vicons/ionicons5";
+import {defineComponent, h, ref} from "vue";
+import {NIcon} from "naive-ui";
+import {RouterLink} from "vue-router";
+import {BookOutline as BookIcon, HeartOutline as Heart, HomeOutline as Home, Pricetag as Tags} from "@vicons/ionicons5";
 
 function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
+  return () => h(NIcon, null, {default: () => h(icon)});
 }
 
 const menuOptions = [
   {
     label: () => h(
-        "a",
+        RouterLink,
         {
-          href: "https://baike.baidu.com/item/%E4%B8%94%E5%90%AC%E9%A3%8E%E5%90%9F",
-          target: "_blank",
-          rel: "noopenner noreferrer"
+          to: {
+            name: "home",
+            params: {
+              lang: "zh-CN"
+            }
+          }
         },
-        "首页"
+        {default: () => "回家"}
     ),
-    key: "hear-the-wind-sing",
+    key: "go-back-home",
     icon: renderIcon(Home)
   },
   {
@@ -51,53 +48,17 @@ const menuOptions = [
     disabled: true
   },
   {
-    label: "about",
-    key: "dance-dance-dance",
-    icon: renderIcon(Heart),
-    children: [
-      {
-        type: "group",
-        label: "人物",
-        key: "people",
-        children: [
-          {
-            label: "叙事者",
-            key: "narrator",
-            icon: renderIcon(PersonIcon)
-          },
-          {
-            label: "羊男",
-            key: "sheep-man",
-            icon: renderIcon(PersonIcon)
+    label: () => h(
+        RouterLink,
+        {
+          to: {
+            name: "about"
           }
-        ]
-      },
-      {
-        label: "饮品",
-        key: "beverage",
-        icon: renderIcon(WineIcon),
-        children: [
-          {
-            label: "威士忌",
-            key: "whisky"
-          }
-        ]
-      },
-      {
-        label: "食物",
-        key: "food",
-        children: [
-          {
-            label: "三明治",
-            key: "sandwich"
-          }
-        ]
-      },
-      {
-        label: "过去增多，未来减少",
-        key: "the-past-increases-the-future-recedes"
-      }
-    ]
+        },
+        {default: () => "about"}
+    ),
+    key: "go-back-home",
+    icon: renderIcon(Heart)
   },
   {
     label: "登陆",
@@ -117,8 +78,7 @@ export default defineComponent({
 </script>
 
 <style>
-.n-menu{
+.n-menu {
   margin-left: auto;
-
 }
 </style>

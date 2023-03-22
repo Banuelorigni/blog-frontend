@@ -1,9 +1,4 @@
 <template>
-  <n-config-provider :theme="theme">
-    <header>
-      <n-h1>Blog Name</n-h1>
-      <Menu/>
-    </header>
 
 <body>
     <main>
@@ -23,7 +18,6 @@
 
     </main>
 </body>
-  </n-config-provider>
 </template>
 
 <style scoped>
@@ -56,8 +50,8 @@ main{
 import { defineComponent, ref, watch } from "vue";
 import AuthorInfo from "@/components/sideBar/Author-info.vue";
 import Menu from "@/components/header/Menu.vue";
-import { darkTheme, lightTheme } from "naive-ui";
 import Notice from "@/components/sideBar/Notice.vue";
+import { darkTheme, lightTheme } from "naive-ui";
 import RecentUpdate from "@/components/sideBar/RecentUpdate.vue";
 
 export default defineComponent({

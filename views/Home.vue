@@ -47,46 +47,14 @@ main{
 </style>
 
 <script>
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent } from "vue";
 import AuthorInfo from "@/components/sideBar/Author-info.vue";
 import Menu from "@/components/header/Menu.vue";
 import Notice from "@/components/sideBar/Notice.vue";
-import { darkTheme, lightTheme } from "naive-ui";
 import RecentUpdate from "@/components/sideBar/RecentUpdate.vue";
 
 export default defineComponent({
   components: {RecentUpdate, Notice, AuthorInfo, Menu },
 
-  setup() {
-    const theme = ref(lightTheme);
-    const currentTime = ref(new Date().toLocaleString());
-    let timer = null;
-
-    const changeTheme = () => {
-      const now = new Date();
-      if (now.getHours() >= 20 || now.getHours() < 6) {
-        theme.value = darkTheme;
-      }
-    };
-    changeTheme();
-
-    watch(theme, (newVal, oldVal) => {
-      if (newVal !== oldVal) {
-        console.log("theme changed");
-      }
-    });
-
-    const updateCurrentTime = () => {
-      currentTime.value = new Date().toLocaleString();
-    };
-    updateCurrentTime();
-    timer = setInterval(updateCurrentTime, 1000);
-
-    return { theme, currentTime, timer };
-  },
-
-  beforeUnmount() {
-    clearInterval(this.timer);
-  },
 });
 </script>

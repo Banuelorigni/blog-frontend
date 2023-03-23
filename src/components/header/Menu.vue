@@ -6,7 +6,7 @@
 import {defineComponent, h, ref} from "vue";
 import {NIcon} from "naive-ui";
 import {RouterLink} from "vue-router";
-import {BookOutline as BookIcon, HeartOutline as Heart, HomeOutline as Home, Pricetag as Tags} from "@vicons/ionicons5";
+import {TimerOutline as TimeIcon, HeartOutline as Heart, HomeOutline as Home, Pricetag as Tags,LogInOutline as LoginIcon} from "@vicons/ionicons5";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, {default: () => h(icon)});
@@ -41,7 +41,7 @@ const menuOptions = [
   {
     label: "时间轴",
     key: "a-wild-sheep-chase",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(TimeIcon),
     disabled: true
   },
   {
@@ -60,7 +60,7 @@ const menuOptions = [
   {
     label: "登陆",
     key: "login",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(LoginIcon),
   }
 ];
 

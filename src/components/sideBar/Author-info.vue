@@ -1,15 +1,17 @@
 <template>
   <n-card class="card">
-    <n-space class="photo">
+    <n-space class="photo" justify="space-evenly">
       <n-avatar
           round
-          :size="80"
+          :size="150"
           src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
       />
+    </n-space >
+    <n-space class="info" justify="space-around">
+      <n-h1 class="name">Author Name</n-h1>
+      <n-h3 class="slogan">slogan/slogan/slogan/slogan/slogan</n-h3>
     </n-space>
-      <n-h1>Author Name</n-h1>
-      <n-h3>slogan/slogan/slogan/slogan/slogan</n-h3>
-    <n-space class="link">
+    <n-space class="link" justify="space-evenly">
       <a href="https://www.runoob.com/">文章</a>
       <a href="https://www.runoob.com/">文章</a>
       <a href="https://www.runoob.com/">文章</a>
@@ -22,7 +24,7 @@
       </template>
       Follow me
     </n-button>
-    <n-space class="icon-link">
+    <n-space class="icon-link" justify="space-evenly">
       <a href="https://github.com/an9827">
         <n-icon size="25">
           <LogoGithub/>
@@ -59,24 +61,28 @@ export default defineComponent({
 </script>
 
 <style>
-.card {
-  border-radius: 2%;
-  align-items: center;
-  margin-bottom: 4%;
-}
 
 .button{
   width: 100%;
 }
 .link{
+  display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 10px;
+}
+.name{
+  margin: 0;
 
-  width: 100%;
+}
+.slogan{
+  margin: 0;
 }
 
 .icon-link{
-  width: 100%;
+  margin: 10px;
+
 }
+
 
 </style>

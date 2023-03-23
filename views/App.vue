@@ -5,6 +5,21 @@
       <n-h1>Blog Name</n-h1>
       <Menu/>
     </header>
+    <main>
+      <div class="side">
+      <n-loading-bar-provider>
+        <n-message-provider>
+          <n-notification-provider>
+            <n-dialog-provider>
+              <AuthorInfo/>
+              <Notice/>
+              <RecentUpdate/>
+            </n-dialog-provider>
+          </n-notification-provider>
+        </n-message-provider>
+      </n-loading-bar-provider>
+      </div>
+    </main>
     <router-view></router-view>
   </div>
   </n-config-provider>
@@ -14,13 +29,16 @@
 import { defineComponent, ref, watch } from "vue";
 import { darkTheme, lightTheme } from "naive-ui";
 
+import AuthorInfo from "@/components/sideBar/Author-info.vue";
 import Menu from "@/components/header/Menu.vue";
-
+import Notice from "@/components/sideBar/Notice.vue";
+import RecentUpdate from "@/components/sideBar/RecentUpdate.vue";
+import Home from "./Home.vue";
 
 
 export default defineComponent({
   name: 'app',
-  components: {Menu},
+  components: {Home, RecentUpdate, Notice, AuthorInfo, Menu },
 
   setup() {
     const theme = ref(lightTheme);
@@ -76,5 +94,19 @@ main{
 
 }
 
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  margin-right: 5px;
+  margin-left: 5px;
 
+}
+.side{
+  display: block;
+  position: relative;
+}
 </style>

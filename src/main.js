@@ -1,4 +1,4 @@
-import index from "@/../router";
+import index from "@/./router";
 import {createApp} from 'vue'
 import App from '../views/App.vue'
 import './assets/main.css'

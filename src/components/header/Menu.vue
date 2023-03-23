@@ -18,13 +18,10 @@ const menuOptions = [
         RouterLink,
         {
           to: {
-            name: "home",
-            params: {
-              lang: "zh-CN"
-            }
+            name: "home"
           }
         },
-        {default: () => "回家"}
+        {default: () => "主页"}
     ),
     key: "go-back-home",
     icon: renderIcon(Home)

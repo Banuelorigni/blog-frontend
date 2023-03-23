@@ -62,7 +62,7 @@ export default defineComponent({
 .card {
   border-radius: 2%;
   align-items: center;
-  margin-bottom: 2%;
+  margin-bottom: 4%;
 }
 
 .button{

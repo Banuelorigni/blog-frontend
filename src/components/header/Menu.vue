@@ -8,7 +8,6 @@
       title="Login"
       size="huge"
       :bordered="false"
-      :segmented="segmented"
   >
     <n-space justify="center" :style="{ bottom: '5px'}" >
       <n-h5>username:</n-h5>
@@ -60,7 +59,17 @@ const menuOptions = [
     icon: renderIcon(Home)
   },
   {
-    label: "Tags",
+    label: () =>
+        h(
+            RouterLink,
+            {
+              to: {
+                name: "tags"
+              },
+              exact: true
+            },
+            {default: () => "Tags"}
+        ),
     key: "tags",
     icon: renderIcon(Tags)
   },
@@ -129,10 +138,6 @@ export default defineComponent({
       bodyStyle: {
         width: "600px"
       },
-      segmented: {
-        content: "soft",
-        footer: "soft"
-      },
       showModal
 
     };
@@ -151,5 +156,12 @@ export default defineComponent({
 .n-menu {
   margin-left: auto;
 }
+.custom-card .n-card-header{
+  text-align: center;
+  padding: 15px;
+}
 
+.custom-card .n-card-header__main{
+  font-size: 30px;
+}
 </style>

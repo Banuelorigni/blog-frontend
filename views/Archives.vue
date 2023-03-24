@@ -37,7 +37,7 @@ export default defineComponent({
 
 <style>
 .mainContentPlace {
-  border-radius: 1%;
+  border-radius: 5px;
 
   width: 1000px;
   margin-bottom: 15px;
@@ -59,11 +59,11 @@ export default defineComponent({
   margin-right: auto;
 }
 
-.n-card-header{
+.mainContentPlace .n-card-header{
   text-align: center;
 }
 
-.n-card-header__main{
+.mainContentPlace .n-card-header__main{
   font-size: 40px;
 }
 </style>

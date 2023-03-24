@@ -122,11 +122,20 @@ main {
 }
 
 .card {
-  border-radius: 2%;
+  border-radius: 5px;
   align-items: center;
   margin-bottom: 4%;
   width: 350px;
 }
+.mainContentPlace {
+  border-radius: 5px;
+
+  width: 1000px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
 
 
 </style>

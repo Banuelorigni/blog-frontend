@@ -25,6 +25,8 @@
 .mainContentPlace {
   width: 1000px;
   margin-bottom: 15px;
+  border-radius: 5px;
+
 }
 
 .cover {

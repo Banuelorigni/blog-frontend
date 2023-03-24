@@ -1,74 +1,96 @@
 <template>
 
-  <n-card v-for="(article, index) in limitedArticles" :key="index" class="article">
+  <n-card v-for="(article, index) in limitedArticles" :key="index" :content-style="{padding:0}" class="article">
     <div class="homeInfo">
-      <n-avatar :size="200" :src="article.coverUrl" class="cover"></n-avatar>
+      <n-image height="270" width="450" :src="article.coverUrl" class="cover"></n-image>
       <n-space class="otherInfo" vertical>
         <n-h1 class="title">{{ article.title }}</n-h1>
-      <n-space class="tag">
-        <n-tag v-for="(tag, i) in article.tags" :key="i">{{ tag.name }}</n-tag>
-      </n-space>
-      <!-- 使用 v-html 指令，将 HTML 字符串转换为 HTML 元素，并渲染到页面 -->
-      <div v-html="article.content" class="content"></div>
+        <n-space class="tag">
+          <n-tag v-for="(tag, i) in article.tags" :key="i">{{ tag.name }}</n-tag>
+        </n-space>
+        <div>{{ stripHtmlTags(article.content) }}</div>
+
       </n-space>
     </div>
   </n-card>
+  <n-pagination v-model:page="page" :page-count="totalPages"  @page-change="(newPage) => page = newPage" />
 </template>
 
 <style scoped>
 .homeInfo {
-  margin-bottom: 4%;
   display: flex;
   flex-wrap: nowrap;
 }
 
 .article {
-  width: 800px;
+  width: 1000px;
   margin-bottom: 15px;
-
 }
 
 .cover {
   margin-right: 20px;
   box-sizing: border-box;
-  width: 200px;
-  width: 200px;
 }
 
 .title {
-  margin: 2px;
+  margin-top: 5px;
+  margin-bottom: 0;
 }
 
+.content{
+  margin-right: 8px;
+}
 
+.otherInfo{
+  padding: 15px;
+}
 </style>
 
 <script>
 import axios from "axios";
+import {ref, watch} from "vue";
 
 export default {
-
   name: 'Home',
-  data() {
-    return {
-      articles: []
-    };
+
+  setup() {
+    const articles = ref([]);
+    const totalPages = ref(0);
+    const pageNumber = ref(0);
+    const page = ref(1);
+    const loading = ref(false);
+
+    function getPage(newPage) {
+      loading.value = true;
+      axios.get(`http://localhost:8080/articles?page=${newPage - 1}`)
+          .then(response => {
+            articles.value = response.data.content;
+            totalPages.value = response.data.totalPages;
+            pageNumber.value = response.data.number + 1;
+          })
+          .catch(error => {
+            console.log(error);
+          })
+          .finally(() => {
+            loading.value = false;
+          });
+    }
+
+    getPage(page.value);
+
+    watch(page, newPage => {
+      if (!loading.value) {
+        getPage(newPage);
+      }
+    });
+
+    return { articles, totalPages, pageNumber, page };
   },
-  mounted() {
-    axios.get('http://localhost:8080/articles')
-        .then(response => {
-          // 将获取到的文章数据存储到组件的数据中
-          this.articles = response.data.content;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-  },
+
   computed: {
     limitedArticles() {
       return this.articles.map(article => {
-        // 对每一篇文章的 content 进行截取
         const limitedContent = article.content.slice(0, 120);
-        // 返回一个新的对象，包含截取后的 content
         return {
           ...article,
           content: limitedContent
@@ -76,5 +98,13 @@ export default {
       });
     }
   },
+
+  methods: {
+    stripHtmlTags(html) {
+      const regex = /<[^>]*>/g;
+      return html.replace(regex, '');
+    }
+  }
+
 }
 </script>

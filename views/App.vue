@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {defineComponent, ref, watch} from "vue";
+import {defineComponent, ref, watch,watchEffect} from "vue";
 import {darkTheme, lightTheme} from "naive-ui";
 import AuthorInfo from "@/components/sideBar/Author-info.vue";
 import Menu from "@/components/header/Menu.vue";
@@ -41,25 +41,28 @@ import Home from "./Home.vue";
 
 export default defineComponent({
   name: "app",
-  computed: {
-    particlesJSConfig() {
-      return particlesJSConfig
-    }
-  },
+
   components: {Home, RecentUpdate, Notice, AuthorInfo, Menu},
+
 
   setup() {
     const theme = ref(lightTheme);
-    const currentTime = ref(new Date().toLocaleString());
-    let timer = null;
 
-    const changeTheme = () => {
-      const now = new Date();
-      if (now.getHours() >= 20 || now.getHours() < 6) {
+    const updateTheme = () => {
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
         theme.value = darkTheme;
+      } else {
+        theme.value = lightTheme;
       }
     };
-    changeTheme();
+
+    // 监听系统主题改变
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      updateTheme();
+    });
+
+    // 更新主题
+    updateTheme();
 
     watch(theme, (newVal, oldVal) => {
       if (newVal !== oldVal) {
@@ -67,18 +70,22 @@ export default defineComponent({
       }
     });
 
+    const currentTime = ref(new Date().toLocaleString());
+    let timer = null;
+
     const updateCurrentTime = () => {
       currentTime.value = new Date().toLocaleString();
     };
     updateCurrentTime();
     timer = setInterval(updateCurrentTime, 1000);
 
-    return {theme, currentTime, timer};
+    return { theme, currentTime, timer };
   },
 
   beforeUnmount() {
     clearInterval(this.timer);
   },
+
 });
 
 </script>

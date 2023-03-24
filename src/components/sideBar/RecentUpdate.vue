@@ -1,29 +1,18 @@
 <template>
   <n-card class="card">
-    <n-h2>
-      <n-icon>
-        <timeIcon/>
+    <n-space justify="center" style="display: flex; align-items: center;" >
+      <n-icon size="25"  style="margin-top: 4px">
+        <timeIcon />
       </n-icon>
-      最新文章
-    </n-h2>
-    <n-space class="articles">
-      <n-list hoverable clickable>
-        <n-list-item>
-          <n-thing title="docker1" content-style="margin-top: 5px;">
-            docker<br>
-            docker
-          </n-thing>
-        </n-list-item>
-        <n-list-item>
-          <n-thing title="docker2" content-style="margin-top: 5px;">
-            docker2<br>
-            docker2
-          </n-thing>
-        </n-list-item>
-        <n-list-item>
-          <n-thing title="docker3" content-style="margin-top: 5px;">
-            docker3<br>
-            docker3
+      <n-h2 style="margin-bottom: 0">
+        最新文章
+      </n-h2>
+    </n-space>
+    <n-space class="articles" >
+      <n-list hoverable clickable >
+        <n-list-item v-for="(article, index) in limitedArticles.slice(0,3)" :key="index" >
+          <n-thing :title="`${article.title} `" content-style="margin-top: 5px; width: 100%;" >
+            <div>{{ stripHtmlTags(article.content) }}</div>
           </n-thing>
         </n-list-item>
       </n-list>
@@ -32,14 +21,54 @@
 </template>
 
 
-
 <script>
 import {TimerOutline as timeIcon} from "@vicons/ionicons5";
 import {defineComponent} from "vue";
+import axios from "axios";
 
 export default defineComponent({
   components: {
     timeIcon
+  },
+
+  data() {
+    return {
+      articles: []
+    };
+  },
+  mounted() {
+    axios.get('http://localhost:8080/articles')
+        .then(response => {
+          this.articles = response.data.content;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+  },
+  computed: {
+    limitedArticles() {
+      return this.articles.map(article => {
+        const limitedContent = article.content.slice(0, 60);
+        return {
+          ...article,
+          content: limitedContent
+        };
+      });
+    }
+  },
+  methods: {
+    stripHtmlTags(html) {
+      const regex = /<[^>]*>/g;
+      return html.replace(regex, '');
+    }
   }
+
 });
 </script>
+
+<style>
+.n-thing .n-thing-main .n-thing-header{
+  justify-content: center;
+}
+
+</style>

@@ -1,6 +1,6 @@
 <template>
 
-  <n-card v-for="(article, index) in limitedArticles" :key="index" :content-style="{padding:0}" class="article">
+  <n-card v-for="(article, index) in limitedArticles" :key="index" :content-style="{padding:0}" class="mainContentPlace">
     <div class="homeInfo">
       <n-image height="270" width="450" :src="article.coverUrl" class="cover"></n-image>
       <n-space class="otherInfo" vertical>
@@ -22,7 +22,7 @@
   flex-wrap: nowrap;
 }
 
-.article {
+.mainContentPlace {
   width: 1000px;
   margin-bottom: 15px;
 }

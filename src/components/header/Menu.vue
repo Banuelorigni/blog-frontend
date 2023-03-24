@@ -64,8 +64,17 @@ const menuOptions = [
     key: "tags",
     icon: renderIcon(Tags)
   },
-  {
-    label: "时间轴",
+  {label: () =>
+        h(
+            RouterLink,
+            {
+              to: {
+                name: "archives"
+              },
+              exact: true
+            },
+            {default: () => "时间轴"}
+        ),
     key: "time-line",
     icon: renderIcon(TimeIcon)
   },

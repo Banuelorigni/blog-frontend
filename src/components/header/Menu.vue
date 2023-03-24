@@ -9,20 +9,58 @@
       size="huge"
       :bordered="false"
   >
-    <n-space justify="center" :style="{ bottom: '5px'}" >
-      <n-h5>username:</n-h5>
-      <n-input v-model:value="value" type="text" placeholder="username" :style="{ width: '200px' }"  />
-    </n-space>
-    <n-space justify="center">
-      <n-h5>password:</n-h5>
-      <n-input
-          type="password"
-          show-password-on="click"
-          placeholder="password"
-          :maxlength="14"
-          :style="{ width: '200px' }"
-      />
-    </n-space>
+    <n-tabs
+        class="card-tabs"
+        default-value="signin"
+        size="large"
+        animated
+        pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;"
+    >
+      <n-tab-pane name="signin" tab="登录">
+        <n-form>
+          <n-form-item-row label="用户名">
+            <n-input />
+          </n-form-item-row>
+          <n-form-item-row label="密码">
+            <n-input
+                type="password"
+                show-password-on="click"
+                placeholder="password"
+                :maxlength="15"
+            ></n-input>
+          </n-form-item-row>
+        </n-form>
+        <n-button type="primary" block secondary strong>
+          登录
+        </n-button>
+      </n-tab-pane>
+      <n-tab-pane name="signup" tab="注册">
+        <n-form>
+          <n-form-item-row label="用户名">
+            <n-input />
+          </n-form-item-row>
+          <n-form-item-row label="密码">
+            <n-input
+                type="password"
+                show-password-on="click"
+                placeholder="password"
+                :maxlength="15"
+            ></n-input>
+          </n-form-item-row>
+          <n-form-item-row label="重复密码">
+            <n-input
+                type="password"
+                show-password-on="click"
+                placeholder="password"
+                :maxlength="15"
+            ></n-input>
+          </n-form-item-row>
+        </n-form>
+        <n-button type="primary" block secondary strong>
+          注册
+        </n-button>
+      </n-tab-pane>
+    </n-tabs>
   </n-modal>
 </template>
 
@@ -164,4 +202,5 @@ export default defineComponent({
 .custom-card .n-card-header__main{
   font-size: 30px;
 }
+
 </style>

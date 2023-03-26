@@ -32,8 +32,6 @@ export default {
 <style>
 .mainContentPlace {
   border-radius: 5px;
-
-  width: 1000px;
   margin-bottom: 15px;
   display: flex;
   justify-content: center;

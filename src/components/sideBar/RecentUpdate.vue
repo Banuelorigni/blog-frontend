@@ -48,7 +48,7 @@ export default defineComponent({
   computed: {
     limitedArticles() {
       return this.articles.map(article => {
-        const limitedContent = article.content.slice(0, 60);
+        const limitedContent = article.content.slice(0, 80);
         return {
           ...article,
           content: limitedContent

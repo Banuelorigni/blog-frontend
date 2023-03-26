@@ -1,8 +1,8 @@
 @import './base.css';
 
 #app {
-  padding: 2rem;
-
+  padding-top: 1rem;
+  justify-content: center;
   font-weight: normal;
 }
 
@@ -18,11 +18,8 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+@media  {
+
 
   #app {
   }

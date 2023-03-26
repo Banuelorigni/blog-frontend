@@ -104,33 +104,31 @@ header {
 }
 
 main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 7%;
-  margin-right: 10%;
-  margin-left: 10%;
+  display: flex;
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 2rem 15px;
   justify-content: center;
 }
 
 
 .side {
-  grid-column: 1;
+  width: 25%;
 }
 
 .board {
-  grid-column: 2;
+  padding-left: 15px;
+  width: 75%;
+
 }
 
 .card {
   border-radius: 5px;
   align-items: center;
   margin-bottom: 4%;
-  width: 350px;
 }
 .mainContentPlace {
   border-radius: 5px;
-
-  width: 1000px;
   margin-bottom: 15px;
   display: flex;
   justify-content: center;

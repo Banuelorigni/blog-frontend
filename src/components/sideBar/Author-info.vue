@@ -3,12 +3,12 @@
     <n-space class="photo" justify="space-evenly">
       <n-avatar
           round
-          :size="150"
+          :size="140"
           src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
       />
     </n-space >
     <n-space class="info" justify="space-around">
-      <n-h1 class="name">Author Name</n-h1>
+      <n-h1 class="name">Name</n-h1>
       <n-h3 class="slogan">slogan/slogan/slogan/slogan/slogan</n-h3>
     </n-space>
     <n-space class="link" justify="space-evenly">

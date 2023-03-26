@@ -37,7 +37,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    axios.get('http://localhost:8080/articles')
+    axios.get('http://localhost:8080/articles/all')
         .then(response => {
           this.articles = response.data.content;
         })

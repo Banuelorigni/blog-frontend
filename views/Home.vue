@@ -64,7 +64,7 @@ export default {
 
     function getPage(newPage) {
       loading.value = true;
-      axios.get(`http://localhost:8080/articles?page=${newPage - 1}`)
+      axios.get(`http://localhost:8080/articles/all?page=${newPage - 1}`)
           .then(response => {
             articles.value = response.data.content;
             totalPages.value = response.data.totalPages;

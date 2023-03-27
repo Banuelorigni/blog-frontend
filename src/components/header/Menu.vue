@@ -1,5 +1,5 @@
 <template>
-  <n-menu v-model:value="activeKey" mode="horizontal" @update-value="handleLoginClick" :options="menuOptions"/>
+  <n-menu v-model:value="activeKey" mode="horizontal" @update-value="showLoginTable" :options="menuOptions"/>
   <n-modal
       v-model:show="showModal"
       class="custom-card"
@@ -19,7 +19,7 @@
       <n-tab-pane name="signin" tab="登录">
         <n-form>
           <n-form-item-row label="用户名">
-            <n-input />
+            <n-input v-model:value="username" ref="usernameInput"/>
           </n-form-item-row>
           <n-form-item-row label="密码">
             <n-input
@@ -27,17 +27,19 @@
                 show-password-on="click"
                 placeholder="password"
                 :maxlength="15"
+                v-model:value="password"
+                ref="passwordInput"
             ></n-input>
           </n-form-item-row>
         </n-form>
-        <n-button type="primary" block secondary strong>
+        <n-button type="primary" block secondary strong @click="() => handleLoginClick('login')">
           登录
         </n-button>
       </n-tab-pane>
       <n-tab-pane name="signup" tab="注册">
         <n-form>
           <n-form-item-row label="用户名">
-            <n-input />
+            <n-input/>
           </n-form-item-row>
           <n-form-item-row label="密码">
             <n-input
@@ -111,7 +113,8 @@ const menuOptions = [
     key: "tags",
     icon: renderIcon(Tags)
   },
-  {label: () =>
+  {
+    label: () =>
         h(
             RouterLink,
             {
@@ -152,6 +155,9 @@ export default defineComponent({
     const activeKey = ref(null);
     const showModal = ref(false);
 
+    const username = ref('');
+    const password = ref('');
+
     function handleMenuClick(key) {
       if (activeKey.value === key) {
         activeKey.value = null
@@ -163,6 +169,8 @@ export default defineComponent({
     return {
       value: ref(null),
       activeKey,
+      username,
+      password,
       menuOptions: menuOptions.map((option) => {
         return {
           ...option,
@@ -183,6 +191,32 @@ export default defineComponent({
   methods: {
     handleLoginClick(key) {
       if (key === 'login') {
+        const userData = {
+          username: this.username,
+          password: this.password
+        };
+        const request = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'platform': 'portal'
+          },
+          body: JSON.stringify(userData)
+        };
+        fetch('http://localhost:8080/users/login', request)
+            .then(response => {
+              if(response.ok){
+                alert('登陆成功！');
+              }else{
+                alert('登陆失败，请检查用户名和密码！');
+              }
+            })
+            .catch(error => console.error(error));
+        this.showModal = false;
+      }
+    },
+    showLoginTable(key) {
+      if (key === 'login') {
         this.showModal = true;
       }
     }
@@ -194,12 +228,13 @@ export default defineComponent({
 .n-menu {
   margin-left: auto;
 }
-.custom-card .n-card-header{
+
+.custom-card .n-card-header {
   text-align: center;
   padding: 15px;
 }
 
-.custom-card .n-card-header__main{
+.custom-card .n-card-header__main {
   font-size: 30px;
 }
 

@@ -1,6 +1,6 @@
 <template>
 
-  <n-card v-for="(article, index) in limitedArticles" :key="index" :content-style="{padding:0}" class="mainContentPlace">
+  <n-card v-for="(article, index) in limitedArticles" :key="index" :content-style="{padding:0}" @click="goToArticle(article.id)" class="mainContentPlace">
     <div class="homeInfo">
       <n-image height="270" width="450" :src="article.coverUrl" class="cover"></n-image>
       <n-space class="otherInfo" vertical>
@@ -50,6 +50,7 @@
 <script>
 import axios from "axios";
 import {ref, watch} from "vue";
+import router from "@/router";
 
 export default {
   name: 'Home',
@@ -104,7 +105,10 @@ export default {
     stripHtmlTags(html) {
       const regex = /<[^>]*>/g;
       return html.replace(regex, '');
-    }
+    },
+    goToArticle(articleId) {
+  router.push(`/articles/${articleId}`);
+}
   }
 
 }

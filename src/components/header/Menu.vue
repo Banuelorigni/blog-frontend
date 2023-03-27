@@ -75,7 +75,7 @@ import {
   HeartOutline as Heart,
   HomeOutline as Home,
   PricetagsOutline as Tags,
-  LogInOutline as LoginIcon
+  LogInOutline as LoginIcon, PersonCircleOutline
 } from "@vicons/ionicons5";
 
 function renderIcon(icon) {
@@ -144,9 +144,22 @@ const menuOptions = [
     icon: renderIcon(Heart)
   },
   {
-    label: "登陆",
+    label: () =>
+        localStorage.getItem("name") ?
+            h(
+                'span',
+                [
+                  h('span', localStorage.getItem("name"))
+                ]
+            ) :
+            h(
+                'span',
+                [
+                  h('span', '登陆')
+                ]
+            ),
     key: "login",
-    icon: renderIcon(LoginIcon),
+    icon: renderIcon(PersonCircleOutline)
   }
 ];
 
@@ -157,6 +170,7 @@ export default defineComponent({
 
     const username = ref('');
     const password = ref('');
+
 
     function handleMenuClick(key) {
       if (activeKey.value === key) {
@@ -207,6 +221,8 @@ export default defineComponent({
             .then(response => {
               if(response.ok){
                 alert('登陆成功！');
+                localStorage.setItem('name', this.username);
+                window.location.reload();
               }else{
                 alert('登陆失败，请检查用户名和密码！');
               }

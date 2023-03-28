@@ -89,7 +89,6 @@ import {
   PricetagsOutline as Tags,
   LogInOutline as LoginIcon, PersonCircleOutline
 } from "@vicons/ionicons5";
-
 function renderIcon(icon) {
   return () => h(NIcon, null, {default: () => h(icon)});
 }
@@ -227,10 +226,27 @@ export default defineComponent({
         showModalRef.value = false;
       },
       onPositiveClick() {
-        message.success("已成功登出！");
-        showModalRef.value = false;
-        localStorage.clear();
-        window.location.reload();
+        fetch('http://localhost:8080/users/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+            .then(response => {
+              if (response.ok) {
+                message.success('已成功登出！');
+                localStorage.clear();
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              } else {
+                message.error('登出失败！');
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              message.error('网络错误！');
+            });
       }
 
     };
@@ -245,9 +261,10 @@ export default defineComponent({
         };
         const request = {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            'platform': 'portal'
+            'platform': 'portal',
           },
           body: JSON.stringify(userData)
         };
@@ -255,10 +272,12 @@ export default defineComponent({
             .then(response => {
               if (response.ok) {
                 message.success("登陆成功！");
-                localStorage.setItem('user', JSON.stringify({
-                  name: this.username,
-                  expired: Date.now() + 24 * 60 * 60 * 1000
-                }));
+                response.json().then(data => {
+                  localStorage.setItem('user', JSON.stringify({
+                    name: data.username,
+                    expired: Date.now() + 24 * 60 * 60 * 1000
+                  }));
+                });
                 setTimeout(() => {
                   window.location.reload();
                 }, 1000);

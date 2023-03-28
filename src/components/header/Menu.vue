@@ -1,5 +1,14 @@
 <template>
-  <n-menu v-model:value="activeKey" mode="horizontal" @update-value="showLoginTable" :options="menuOptions"/>
+  <n-menu v-model:value="activeKey" mode="horizontal" @update-value="showTable" :options="menuOptions"/>
+  <n-modal
+      v-model:show="logoutShowModal"
+      :mask-closable="false"
+      preset="dialog"
+      title="Logout"
+      content="确认登出？"
+      positive-text="确认"
+      negative-text="算了"
+  />
   <n-modal
       v-model:show="showModal"
       class="custom-card"
@@ -30,15 +39,6 @@
                 v-model:value="password"
                 ref="passwordInput"
             ></n-input>
-            <n-modal
-                v-model:show="logoutShowModal"
-                :mask-closable="false"
-                preset="dialog"
-                title="Logout"
-                content="确认登出？"
-                positive-text="确认"
-                negative-text="算了"
-            />
           </n-form-item-row>
         </n-form>
         <n-button type="primary" block secondary strong @click="() => handleLoginClick('login')">
@@ -158,7 +158,7 @@ const menuOptions = [
             h(
                 'span',
                 [
-                  h('span', JSON.parse(localStorage.getItem("user")).name )
+                  h('span', JSON.parse(localStorage.getItem("user")).name)
                 ]
             ) :
             h(
@@ -192,9 +192,6 @@ export default defineComponent({
         activeKey.value = null
       } else {
         activeKey.value = key;
-      }
-      if (key === "user") {
-        logoutShowModal.value = true;
       }
     }
 
@@ -253,9 +250,11 @@ export default defineComponent({
         this.showModal = false;
       }
     },
-    showLoginTable(key) {
+    showTable(key) {
       if (key === 'login') {
         this.showModal = true;
+      } else if (key === 'user') {
+        this.logoutShowModal = true;
       }
     }
   }

@@ -3,6 +3,8 @@
   <n-config-provider :theme="theme">
     <body>
     <div id="app">
+      <n-message-provider>
+
       <header>
         <n-h1>Blog Name</n-h1>
         <Menu/>
@@ -10,7 +12,6 @@
       <main>
         <div class="side">
           <n-loading-bar-provider>
-            <n-message-provider>
               <n-notification-provider>
                 <n-dialog-provider>
                   <AuthorInfo/>
@@ -18,13 +19,14 @@
                   <RecentUpdate/>
                 </n-dialog-provider>
               </n-notification-provider>
-            </n-message-provider>
           </n-loading-bar-provider>
         </div>
         <div class="board">
           <router-view></router-view>
         </div>
       </main>
+      </n-message-provider>
+
     </div>
     </body>
   </n-config-provider>

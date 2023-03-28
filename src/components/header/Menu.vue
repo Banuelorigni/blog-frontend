@@ -1,14 +1,17 @@
 <template>
   <n-menu v-model:value="activeKey" mode="horizontal" @update-value="showTable" :options="menuOptions"/>
-  <n-modal
-      v-model:show="logoutShowModal"
-      :mask-closable="false"
-      preset="dialog"
-      title="Logout"
-      content="确认登出？"
-      positive-text="确认"
-      negative-text="算了"
-  />
+    <n-modal
+        v-model:show="logoutShowModal"
+        :mask-closable="false"
+        preset="dialog"
+        title="Logout"
+        content="确认登出？"
+        positive-text="确认"
+        negative-text="算了"
+        @positive-click="onPositiveClick"
+        @negative-click="onNegativeClick"
+    />
+
   <n-modal
       v-model:show="showModal"
       class="custom-card"
@@ -77,7 +80,7 @@
 
 <script>
 import {defineComponent, h, ref} from "vue";
-import {NIcon} from "naive-ui";
+import {NIcon,useMessage} from "naive-ui";
 import {RouterLink} from "vue-router";
 import {
   TimerOutline as TimeIcon,
@@ -178,6 +181,9 @@ export default defineComponent({
     const showModal = ref(false);
     const logoutShowModal = ref(false);
 
+    const message = useMessage();
+    const showModalRef = ref(false);
+
     const username = ref('');
     const password = ref('');
     const user = JSON.parse(localStorage.getItem('user'));
@@ -200,6 +206,7 @@ export default defineComponent({
       activeKey,
       username,
       password,
+      message,
       menuOptions: menuOptions.map((option) => {
         return {
           ...option,
@@ -214,13 +221,24 @@ export default defineComponent({
         width: "600px"
       },
       showModal,
-      logoutShowModal
+      logoutShowModal,
+      onNegativeClick() {
+        message.info("Cancel");
+        showModalRef.value = false;
+      },
+      onPositiveClick() {
+        message.success("已成功登出！");
+        showModalRef.value = false;
+        localStorage.clear();
+        window.location.reload();
+      }
 
     };
   },
   methods: {
     handleLoginClick(key) {
       if (key === 'login') {
+        const message = this.message;
         const userData = {
           username: this.username,
           password: this.password
@@ -236,14 +254,16 @@ export default defineComponent({
         fetch('http://localhost:8080/users/login', request)
             .then(response => {
               if (response.ok) {
-                alert('登陆成功！');
+                message.success("登陆成功！");
                 localStorage.setItem('user', JSON.stringify({
                   name: this.username,
                   expired: Date.now() + 24 * 60 * 60 * 1000
                 }));
-                window.location.reload();
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
               } else {
-                alert('登陆失败，请检查用户名和密码！');
+                message.error("登陆失败，请检查用户名和密码！");
               }
             })
             .catch(error => console.error(error));

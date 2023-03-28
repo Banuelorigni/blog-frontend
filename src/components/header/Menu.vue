@@ -30,6 +30,15 @@
                 v-model:value="password"
                 ref="passwordInput"
             ></n-input>
+            <n-modal
+                v-model:show="logoutShowModal"
+                :mask-closable="false"
+                preset="dialog"
+                title="Logout"
+                content="确认登出？"
+                positive-text="确认"
+                negative-text="算了"
+            />
           </n-form-item-row>
         </n-form>
         <n-button type="primary" block secondary strong @click="() => handleLoginClick('login')">
@@ -145,11 +154,11 @@ const menuOptions = [
   },
   {
     label: () =>
-        localStorage.getItem("name") ?
+        JSON.parse(localStorage.getItem("user"))?.name ?
             h(
                 'span',
                 [
-                  h('span', localStorage.getItem("name"))
+                  h('span', JSON.parse(localStorage.getItem("user")).name )
                 ]
             ) :
             h(
@@ -158,8 +167,8 @@ const menuOptions = [
                   h('span', '登陆')
                 ]
             ),
-    key: "login",
-    icon: renderIcon(PersonCircleOutline)
+    key: JSON.parse(localStorage.getItem("user"))?.name ? "user" : "login",
+    icon: JSON.parse(localStorage.getItem("user"))?.name ? renderIcon(PersonCircleOutline) : renderIcon(LoginIcon)
   }
 ];
 
@@ -167,16 +176,25 @@ export default defineComponent({
   setup() {
     const activeKey = ref(null);
     const showModal = ref(false);
+    const logoutShowModal = ref(false);
 
     const username = ref('');
     const password = ref('');
-
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user?.expired && user.expired < Date.now()) {
+      alert('登录已超时，请重新登录');
+      localStorage.clear();
+      window.location.reload();
+    }
 
     function handleMenuClick(key) {
       if (activeKey.value === key) {
         activeKey.value = null
       } else {
         activeKey.value = key;
+      }
+      if (key === "user") {
+        logoutShowModal.value = true;
       }
     }
 
@@ -198,7 +216,8 @@ export default defineComponent({
       bodyStyle: {
         width: "600px"
       },
-      showModal
+      showModal,
+      logoutShowModal
 
     };
   },
@@ -219,11 +238,14 @@ export default defineComponent({
         };
         fetch('http://localhost:8080/users/login', request)
             .then(response => {
-              if(response.ok){
+              if (response.ok) {
                 alert('登陆成功！');
-                localStorage.setItem('name', this.username);
+                localStorage.setItem('user', JSON.stringify({
+                  name: this.username,
+                  expired: Date.now() + 24 * 60 * 60 * 1000
+                }));
                 window.location.reload();
-              }else{
+              } else {
                 alert('登陆失败，请检查用户名和密码！');
               }
             })

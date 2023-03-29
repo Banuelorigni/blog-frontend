@@ -228,9 +228,7 @@ export default defineComponent({
       onPositiveClick() {
         fetch('http://localhost:8080/users/logout', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          credentials: 'include',
         })
             .then(response => {
               if (response.ok) {
@@ -275,7 +273,7 @@ export default defineComponent({
                 response.json().then(data => {
                   localStorage.setItem('user', JSON.stringify({
                     name: data.username,
-                    expired: Date.now() + 24 * 60 * 60 * 1000
+                    expired: Date.now() + 1800000
                   }));
                 });
                 setTimeout(() => {

@@ -188,6 +188,10 @@ export default defineComponent({
     const user = JSON.parse(localStorage.getItem('user'));
     if (user?.expired && user.expired < Date.now()) {
       alert('登录已超时，请重新登录');
+      fetch('http://localhost:8080/users/logout', {
+        method: 'POST',
+        credentials: 'include',
+      })
       localStorage.clear();
       window.location.reload();
     }

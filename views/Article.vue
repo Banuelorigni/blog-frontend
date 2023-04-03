@@ -7,9 +7,13 @@
     <n-divider/>
     <div v-html="article.content" style="margin-bottom: 1.5rem"></div>
     <n-divider/>
-    <n-h2 style="font-size: 35px;">评论</n-h2>
+    <n-h2 style="font-size: 35px;margin-bottom: 0.5rem">评论</n-h2>
+    <n-space class="input-space" style="display:grid;grid-template-columns: 9fr 1fr;">
+      <n-input class="comment-input" v-model="content"></n-input>
+      <n-button @click="submitComment">提交</n-button>
+    </n-space>
     <n-card v-for="(comment,index) in comments" :key="index" class="comment">
-      <n-h4 >{{ comment.userName }}</n-h4>
+      <n-h4>{{ comment.userName }}</n-h4>
       {{ comment.content }}
     </n-card>
     <n-pagination v-model:page="page" :page-count="totalPages" @page-change="(newPage) => page = newPage"/>
@@ -23,15 +27,17 @@ export default {
   data() {
     return {
       article: [],
-      comments:[],
-      totalPages:0,
-      pageNumber:0,
-      page:1,
-      loading:false
+      comments: [],
+      totalPages: 0,
+      pageNumber: 0,
+      page: 1,
+      loading: false,
+      content: ''
     };
   },
   created() {
     const articleId = this.$route.params.articleId;
+
     axios.get(`http://localhost:8080/articles/${articleId}`)
         .then(response => {
           this.article = response.data;
@@ -69,6 +75,32 @@ export default {
       const minute = ("0" + date.getMinutes()).slice(-2);
       const second = ("0" + date.getSeconds()).slice(-2);
       return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    },
+    submitComment() {
+      const articleId = this.$route.params.articleId;
+      const comment = {
+        content: this.content,
+        article_id: articleId
+      };
+
+      axios.post('http://localhost:8080/comments', JSON.stringify(comment), {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'platform': 'portal',
+        }
+      })
+          .then(response => {
+            this.content = '123';
+
+            this.page = 1;
+            this.comments = [];
+            this.totalPages = 0;
+            this.pageNumber = 0;
+          })
+          .catch(error => {
+            console.log(error);
+          });
     }
   }
 };
@@ -93,4 +125,7 @@ export default {
   margin: 5px 0;
 }
 
+.input-space {
+  margin-bottom: 2rem;
+}
 </style>

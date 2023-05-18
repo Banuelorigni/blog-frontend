@@ -38,13 +38,13 @@ export default {
   created() {
     const articleId = this.$route.params.articleId;
 
-    axios.get(`http://35.76.37.16:8080/articles/${articleId}`)
+    axios.get(`https://35.76.37.16:8080/articles/${articleId}`)
         .then(response => {
           this.article = response.data;
         });
     const getPage = (newPage) => {
       this.loading = true;
-      axios.get(`http://35.76.37.16:8080/comments/${articleId}?page=${newPage - 1}`)
+      axios.get(`https://35.76.37.16:8080/comments/${articleId}?page=${newPage - 1}`)
           .then(response => {
             this.comments = response.data.content;
             this.totalPages = response.data.totalPages;

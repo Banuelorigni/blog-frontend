@@ -23,7 +23,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    axios.get('http://35.76.37.16:8080/articles/all?size=999')
+    axios.get('https://35.76.37.16:8080/articles/all?size=999')
         .then(response => {
           this.articles = response.data.content;
         })

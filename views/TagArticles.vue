@@ -22,7 +22,7 @@ export default {
   created() {
     const tagId = this.$route.params.tagId;
     this.tagName = this.$route.query.tag || "";
-    axios.get(`http://localhost:8080/tags/${tagId}`).then((response) => {
+    axios.get(`https://localhost:8080/tags/${tagId}`).then((response) => {
       this.articles = response.data;
     });
   },

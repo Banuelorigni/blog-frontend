@@ -19,7 +19,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    axios.get('http://localhost:8080/tags')
+    axios.get('http://localhost:8080/tags/all')
         .then(response => {
           this.tags = response.data;
         })

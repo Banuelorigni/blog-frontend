@@ -9,7 +9,7 @@
     <n-divider/>
     <n-h2 style="font-size: 35px;margin-bottom: 0.5rem">评论</n-h2>
     <n-space class="input-space" style="display:grid;grid-template-columns: 9fr 1fr;">
-      <n-input class="comment-input" v-model="content"></n-input>
+      <n-input class="comment-input" v-model:value="content"></n-input>
       <n-button @click="submitComment">提交</n-button>
     </n-space>
     <n-card v-for="(comment,index) in comments" :key="index" class="comment">
@@ -91,12 +91,14 @@ export default {
         }
       })
           .then(response => {
-            this.content = '123';
+            this.content = '';
 
             this.page = 1;
             this.comments = [];
             this.totalPages = 0;
             this.pageNumber = 0;
+            window.location.reload();
+
           })
           .catch(error => {
             console.log(error);
